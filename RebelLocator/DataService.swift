@@ -25,5 +25,22 @@ class DataService{
         componentURL.path = "/rebels"
         
         print(componentURL.url!)
+        
+        guard let validURL = componentURL.url else {
+            print("URL mal formada")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: validURL) { (data, response, error) in
+            if let httpResponse = response as? HTTPURLResponse{
+                print("API status: \(httpResponse.statusCode)")
+            }
+            
+            guard let validData = data, error == nil else {
+                print("Erro: \(error!.localizedDescription)")
+                return
+            }
+            
+        }.resume()
     }
 }

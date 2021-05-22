@@ -17,15 +17,16 @@ class ViewController: UIViewController{
         
         DataService.shared.fetchRebels { (result) in
             switch result{
-                case .success(let json):
-                    print(json)
+                case .success(let rebels):
+                    for rebel in rebels {
+                        print("\(rebel.name)\n")
+                        print("\(rebel.bioURL.absoluteString)\n")
+                    }
             case .failure(let error):
                     print(error)
             }
         }
     }
-
-    
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource{

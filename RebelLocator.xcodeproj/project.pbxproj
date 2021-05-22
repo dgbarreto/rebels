@@ -14,6 +14,7 @@
 		959889B5265922100029290B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 959889B4265922100029290B /* Assets.xcassets */; };
 		959889B8265922100029290B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 959889B6265922100029290B /* LaunchScreen.storyboard */; };
 		959889C026596AC90029290B /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959889BF26596AC90029290B /* DataService.swift */; };
+		959889C22659AC8C0029290B /* Rebel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959889C12659AC8C0029290B /* Rebel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		959889B7265922100029290B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		959889B9265922100029290B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		959889BF26596AC90029290B /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		959889C12659AC8C0029290B /* Rebel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rebel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				959889B6265922100029290B /* LaunchScreen.storyboard */,
 				959889B9265922100029290B /* Info.plist */,
 				959889BF26596AC90029290B /* DataService.swift */,
+				959889C12659AC8C0029290B /* Rebel.swift */,
 			);
 			path = RebelLocator;
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 				959889B02659220E0029290B /* ViewController.swift in Sources */,
 				959889AC2659220E0029290B /* AppDelegate.swift in Sources */,
 				959889AE2659220E0029290B /* SceneDelegate.swift in Sources */,
+				959889C22659AC8C0029290B /* Rebel.swift in Sources */,
 				959889C026596AC90029290B /* DataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

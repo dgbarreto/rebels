@@ -12,7 +12,7 @@ class DataService{
     static let shared = DataService()
     fileprivate let baseURLString = "https://rebel-api.azure-api.net/"
 
-    func fetchRebels(completion : @escaping(Result<Any, Error>) -> Void){
+    func fetchRebels(completion : @escaping(Result<[Rebel], Error>) -> Void){
 //        var baseURL = URL(string: baseURLString)
 //        var composedURL = URL(string: "/rebels", relativeTo: baseURL)
 //
@@ -42,8 +42,9 @@ class DataService{
             }
             
             do{
-                let json = try JSONSerialization.jsonObject(with: validData, options: [])
-                completion(.success(json))
+//                let json = try JSONSerialization.jsonObject(with: validData, options: [])
+                let rebels = try JSONDecoder().decode([Rebel].self, from: validData)
+                completion(.success(rebels))
             } catch let serializationError {
                 completion(.failure(serializationError))
             }

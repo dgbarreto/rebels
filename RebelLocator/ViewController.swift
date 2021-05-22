@@ -21,6 +21,7 @@ class ViewController: UIViewController{
                     for rebel in rebels {
                         print("\(rebel.name)\n")
                         print("\(rebel.bioURL.absoluteString)\n")
+                        print("\(rebel.birthYear)\n")
                     }
             case .failure(let error):
                     print(error)

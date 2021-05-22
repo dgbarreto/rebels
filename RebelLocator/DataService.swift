@@ -12,7 +12,7 @@ class DataService{
     static let shared = DataService()
     fileprivate let baseURLString = "https://rebel-api.azure-api.net/"
 
-    func fetchRebels(){
+    func fetchRebels(completion : @escaping(Result<Any, Error>) -> Void){
 //        var baseURL = URL(string: baseURLString)
 //        var composedURL = URL(string: "/rebels", relativeTo: baseURL)
 //
@@ -30,15 +30,22 @@ class DataService{
             print("URL mal formada")
             return
         }
-        
+
         URLSession.shared.dataTask(with: validURL) { (data, response, error) in
             if let httpResponse = response as? HTTPURLResponse{
                 print("API status: \(httpResponse.statusCode)")
             }
             
             guard let validData = data, error == nil else {
-                print("Erro: \(error!.localizedDescription)")
+                completion(.failure(error!))
                 return
+            }
+            
+            do{
+                let json = try JSONSerialization.jsonObject(with: validData, options: [])
+                completion(.success(json))
+            } catch let serializationError {
+                completion(.failure(serializationError))
             }
             
         }.resume()

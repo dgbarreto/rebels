@@ -15,7 +15,14 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        DataService.shared.fetchRebels()
+        DataService.shared.fetchRebels { (result) in
+            switch result{
+                case .success(let json):
+                    print(json)
+            case .failure(let error):
+                    print(error)
+            }
+        }
     }
 
     

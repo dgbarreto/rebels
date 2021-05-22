@@ -15,12 +15,22 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let rebelPayload = Rebel(name: "Rey", bioURL: nil, birthYear: "BY178")
+        
+        do{
+            let rebelData = try JSONEncoder().encode(rebelPayload)
+            let stringData = String(data: rebelData, encoding: .utf8)
+            print(stringData)
+        }catch {
+            print("Erro no encoding")
+        }
+        
         DataService.shared.fetchRebels { (result) in
             switch result{
                 case .success(let rebels):
                     for rebel in rebels {
                         print("\(rebel.name)\n")
-                        print("\(rebel.bioURL.absoluteString)\n")
+                        print("\(rebel.bioURL?.absoluteString)\n")
                         print("\(rebel.birthYear)\n")
                     }
             case .failure(let error):

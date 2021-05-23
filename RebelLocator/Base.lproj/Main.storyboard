@@ -57,6 +57,9 @@
                                 <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <state key="normal" title="Add Rebel Alert"/>
+                                <connections>
+                                    <action selector="createNewAlert:" destination="BYZ-38-t0r" eventType="touchUpInside" id="v64-N3-fye"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>

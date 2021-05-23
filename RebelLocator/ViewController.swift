@@ -65,6 +65,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let seenAction = UIContextualAction(style: .normal, title: "Seen"){ (action, view, completion) in
+            DataService.shared.seenRebel(name: "Rey") { (result) in
+                if(result){
+                    print("Rey marcada como 'seen'")
+                }
+                else{
+                    print("Erro ao marcar como seen")
+                }
+            }
             completion(true)
         }
         

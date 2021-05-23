@@ -57,14 +57,7 @@ class DataService{
         
         var postRequest = URLRequest(url: composedURL)
         postRequest.httpMethod = "POST"
-        
-        let authString = "Vader:V@d3r"
-        var authStringBase64 = ""
-        
-        if let authData = authString.data(using: .utf8){
-            authStringBase64 = authData.base64EncodedString()
-        }
-        
+
         do{
             let alertData = try JSONEncoder().encode(alert)
             postRequest.httpBody = alertData
@@ -72,7 +65,7 @@ class DataService{
             print("Erro ao fazer encodingo do alerta")
         }
         
-        postRequest.setValue("Basic \(authStringBase64)", forHTTPHeaderField: "Authorization")
+        postRequest.setValue("Basic \(getAuthCredentials())", forHTTPHeaderField: "Authorization")
         postRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         postRequest.setValue("application/json", forHTTPHeaderField: "Accept")
         
@@ -93,6 +86,45 @@ class DataService{
                 completion(.failure(serializationDataError))
             }
         }.resume()
+    }
+    
+    func seenRebel(name: String, completion: @escaping(Bool)->Void){
+        let putComponents = createUrlComponents(path: "/rebels/\(name)")
+        
+        guard let composedURL = putComponents.url else{
+            print("Erro na hora de gerar a url para o put")
+            return
+        }
+        
+        print(composedURL)
+        var putRequest = URLRequest(url: composedURL)
+        putRequest.httpMethod = "PUT"
+        putRequest.setValue("Basic \(getAuthCredentials())", forHTTPHeaderField: "Authorization")
+        putRequest.setValue("0", forHTTPHeaderField: "Content-Length")
+
+        URLSession.shared.dataTask(with: putRequest) { (data, response, error) in
+            if let httpResponse = response as? HTTPURLResponse{
+                print("Status code \(httpResponse.statusCode)")
+
+                if(httpResponse.statusCode == 204){
+                    completion(true)
+                }
+                else{
+                    completion(false)
+                }
+            }
+        }.resume()
+    }
+    
+    func getAuthCredentials() -> String{
+        let authString = "Vader:V@d3r"
+        var authStringBase64 = ""
+        
+        if let authData = authString.data(using: .utf8){
+            authStringBase64 = authData.base64EncodedString()
+        }
+        
+        return authStringBase64
     }
     
     func createUrlComponents(path: String) -> URLComponents{

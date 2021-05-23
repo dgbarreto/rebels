@@ -11,6 +11,7 @@ import UIKit
 
 class ViewController: UIViewController{
     @IBOutlet weak var rebelTable : UITableView!
+    var arrRebels: [Rebel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,18 +26,17 @@ class ViewController: UIViewController{
 //            print("Erro no encoding")
 //        }
 //
-//        DataService.shared.fetchRebels { (result) in
-//            switch result{
-//                case .success(let rebels):
-//                    for rebel in rebels {
-//                        print("\(rebel.name)\n")
-//                        print("\(rebel.bioURL?.absoluteString)\n")
-//                        print("\(rebel.birthYear)\n")
-//                    }
-//            case .failure(let error):
-//                    print(error)
-//            }
-//        }
+        DataService.shared.fetchRebels { (result) in
+            DispatchQueue.main.async {
+                switch result{
+                    case .success(let rebels):
+                        self.arrRebels = rebels
+                        self.rebelTable.reloadData()
+                case .failure(let error):
+                        print(error)
+                }
+            }
+        }
     }
     
     @IBAction func createNewAlert(_ sender: UIButton){
@@ -50,27 +50,45 @@ class ViewController: UIViewController{
             }
         }
     }
+    
+    func showAlert(title: String, message: String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1;
+        return arrRebels.count;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell  = tableView.dequeueReusableCell(withIdentifier: "rebelCellId", for: indexPath)
+        let currentRebel = self.arrRebels[indexPath.row]
+        cell.textLabel?.text = currentRebel.name
+        cell.detailTextLabel?.text = currentRebel.birthYear
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "rebelCellId", for: indexPath)
+        guard let name = cell.textLabel?.text else{
+            print("Erro ao recuperar nome")
+            return nil
+        }
+
         let seenAction = UIContextualAction(style: .normal, title: "Seen"){ (action, view, completion) in
-            DataService.shared.seenRebel(name: "Rey") { (result) in
-                if(result){
-                    print("Rey marcada como 'seen'")
-                }
-                else{
-                    print("Erro ao marcar como seen")
+            DataService.shared.seenRebel(name: name) { (result) in
+                DispatchQueue.main.async {
+                    if(result){
+                        print("Sucesso!")
+                        self.showAlert(title: "Seen", message: "Sucesso!")
+                    }
+                    else{
+                        print("Erro ao marcar como seen")
+                    }
                 }
             }
             completion(true)
